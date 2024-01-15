@@ -1,8 +1,8 @@
 version: '3.5'
 
 services:
-  tg-motor-center:
-    container_name: motor-center
+  punk-api:
+    container_name: punk-api
     build:
       context: ./docker
       args:
@@ -16,31 +16,31 @@ services:
     environment:
       XDEBUG_CLIENT_HOST: 172.17.0.1
       XDEBUG_CLIENT_PORT: 9003
-      PHP_IDE_CONFIG: serverName=motor-center
+      PHP_IDE_CONFIG: serverName=punk-api
     ports:
       - '1000:8000'
     networks:
-      - motor-center-network
+      - punkapi-network
     depends_on:
-      - motor-center-mysql
+      - punkapi-mysql
 
-  motor-center-mysql:
-    container_name: tg-database
-    image: mysql:8.0.32-debian
+  punkapi-mysql:
+    container_name: punkapi-database
+    image: mysql
     ports:
       - '3336:3306'
     environment:
-      MYSQL_DATABASE: TG-MC
+      MYSQL_DATABASE: PUNK-API
       MYSQL_ROOT_PASSWORD: root
     volumes:
-      - motor-center-mysql-data:/var/lib/mysql
+      - punkapi-mysql-data:/var/lib/mysql
     networks:
-      - motor-center-network
+      - punkapi-network
     command: [ 'mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci' ]
 
 networks:
-  motor-center-network:
+  punkapi-network:
 
 volumes:
-  motor-center-mysql-data:
+  punkapi-mysql-data:
 
